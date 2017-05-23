@@ -30,6 +30,11 @@ public class Grille
 		return taille;
 	}
 	
+	public Case getCase(int coordX, int coordY)
+	{
+		return grille.get(coordX + coordY * 10);
+	}
+	
 	public void setBateau(List<Case> position, boolean bateau)
 	{
 		for (Case c : position)

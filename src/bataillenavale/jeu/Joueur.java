@@ -38,475 +38,315 @@ public class Joueur
 		return grilleJoueur;
 	}
 	
-	public void initialisation()
+	public Grille getGrilleEnnemi()
 	{
-		String nomBateau = null;
-		String proue = null;
-		String poupe = null;
+		return grilleEnnemi;
+	}
+	
+	public int getCVJoueur()
+	{
+		return nbCVJoueur;
+	}
+	
+	public int getCAJoueur()
+	{
+		return nbCAJoueur;
+	}
+	
+	public int getDDJoueur()
+	{
+		return nbDDJoueur;
+	}
+	
+	public int getCVEnnemi()
+	{
+		return nbCVEnnemi;
+	}
+	
+	public int getCAEnnemi()
+	{
+		return nbCAEnnemi;
+	}
+	
+	public int getDDEnnemi()
+	{
+		return nbDDEnnemi;
+	}
+	
+	public boolean setCV1(Case proue, Case poupe)
+	{
+		int coordProueX = proue.getCoordX();
+		int coordProueY = proue.getCoordY();
+		int coordPoupeX = poupe.getCoordX();
+		int coordPoupeY = poupe.getCoordY();
 		
-		int tailleBateau = 0;
-		int coordProueX = 0;
-		int coordProueY = 0;
-		int coordPoupeX = 0;
-		int coordPoupeY = 0;
-		int index = 0;
-		
-		Case caseProue;
-		Case casePoupe;
-		Case caseTemp;
 		List<Case> positionBateau;
+		Case caseTemp;
 		
-		Scanner reader = new Scanner(System.in);  // Reading from System.in
-		
-		do // Placement des bateaux
-		{
-			do // Selection du bateau
+		if ((coordProueX == coordPoupeX && Math.abs(coordProueY - coordPoupeY) == 4) ||
+			(coordProueY == coordPoupeY && Math.abs(coordProueX - coordPoupeX) == 4))
 			{
-				System.out.print("Entrez un type de bateau : ");
-				nomBateau = reader.nextLine();
-				if (nomBateau.equalsIgnoreCase("CV") && nbCVJoueur != 0)
-				{
-					tailleBateau = 5;
-					nbCVJoueur --;
-					break;
-				}
-				else if (nomBateau.equalsIgnoreCase("CA") && nbCAJoueur != 0)
-				{
-					tailleBateau = 4;
-					nbCAJoueur --;
-					break;
-				}
-				else if (nomBateau.equalsIgnoreCase("DD") && nbDDJoueur != 0)
-				{
-					tailleBateau = 3;
-					nbDDJoueur --;
-					break;
-				}
-				else
-				{
-					System.out.println("Entrée incorrecte");
-				}
-			}
-			while (true);
-			
-			do // Selection de la proue
-			{
-				System.out.print("Entrez la case de proue ([A..J][1..10]): ");
-				proue = reader.nextLine();
-				if (proue.length() < 2)
-				{
-					System.out.println("Entrée incorrecte");
-				}
-				else
-				{
-					coordProueX = Character.getNumericValue(proue.charAt(0));
-					coordProueY = Character.getNumericValue(proue.charAt(1));
-					if (coordProueX < 20 && coordProueX >= 10 && Character.isDigit(proue.charAt(1)) && proue.length() == 2)
-					{
-						coordProueX -= 10;
-						coordProueY -= 1;
-						break;
-					}
-					else if (coordProueX < 20 && coordProueX >= 10 && Character.isDigit(proue.charAt(1)) && coordProueY == 1 &&
-							Character.isDigit(proue.charAt(2)) && Character.getNumericValue(proue.charAt(2)) == 0 && proue.length() == 3)
-					{
-						coordProueX -= 10;
-						coordProueY = 9;
-						break;
-					}
-					else
-					{
-						System.out.println("Entrée incorrecte");
-					}
-				}
-			}
-			while (true);
-			
-			do // Selection de la poupe
-			{
-				System.out.print("Entrez la case de poupe ([A..J][1..10]): ");
-				poupe = reader.nextLine();
-				if (poupe.length() < 2)
-				{
-					System.out.println("Entrée incorrecte");
-				}
-				else
-				{
-					coordPoupeX = Character.getNumericValue(poupe.charAt(0));
-					coordPoupeY = Character.getNumericValue(poupe.charAt(1));
-					if (coordPoupeX < 20 && coordPoupeX >= 10 && Character.isDigit(poupe.charAt(1)) && poupe.length() == 2)
-					{
-						coordPoupeX -= 10;
-						coordPoupeY -= 1;
-						if ((coordProueX == coordPoupeX && Math.abs(coordProueY - coordPoupeY) == tailleBateau - 1) ||
-							(coordProueY == coordPoupeY && Math.abs(coordProueX - coordPoupeX) == tailleBateau - 1))
-						{
-							break;
-						}
-						else
-						{
-							System.out.println("Entrée incorrecte");
-						}
-					}
-					else if (coordPoupeX < 20 && coordPoupeX >= 10 && Character.isDigit(poupe.charAt(1)) && coordPoupeY == 1 &&
-							Character.isDigit(poupe.charAt(2)) && Character.getNumericValue(poupe.charAt(2)) == 0 && poupe.length() == 3)
-					{
-						coordPoupeX -= 10;
-						coordPoupeY = 9;
-						if ((coordProueX == coordPoupeX && Math.abs(coordProueY - coordPoupeY) == tailleBateau - 1) ||
-							(coordProueY == coordPoupeY && Math.abs(coordProueX - coordPoupeX) == tailleBateau - 1))
-						{
-							break;
-						}
-						else
-						{
-							System.out.println("Entrée incorrecte");
-						}
-					}
-					else
-					{
-						System.out.println("Entrée incorrecte");
-					}
-				}
-			}
-			while (true);
-			
-			caseProue = new Case(coordProueX, coordProueY, true, false);
-			casePoupe = new Case(coordPoupeX, coordPoupeY, true, false);
-			
-			if (tailleBateau == 5)
-			{
-				CV1 = new PorteAvion(caseProue, casePoupe);
+				CV1 = new PorteAvion(proue, poupe);
 				positionBateau = CV1.getPosition();
 				for (Case c : positionBateau)
 				{
-					index = c.getCoordX() + c.getCoordY() * 10;
-					caseTemp = grilleJoueur.getGrille().get(index);
+					caseTemp = grilleJoueur.getCase(c.getCoordX(), c.getCoordY());
 					if (caseTemp.isBateau())
 					{
-						nbCVJoueur ++;
-						System.out.println("Entrée incorrecte");
-						break;
+						return false;
 					}
 				}
-				if (nbCVJoueur == 0)
-				{
-					grilleJoueur.setBateau(positionBateau, true);
-				}
+				nbCVJoueur --;
+				grilleJoueur.setBateau(positionBateau, true);
+				return true;
 			}
-			else if (tailleBateau == 4 && nbCAJoueur == 1)
+		else
+		{
+			return false;
+		}
+	}
+	
+	public void destroyCV1()
+	{
+		List<Case> positionBateau = CV1.getPosition();
+		nbCVJoueur ++;
+		grilleJoueur.setBateau(positionBateau, false);
+	}
+	
+	public boolean setCA1(Case proue, Case poupe)
+	{
+		int coordProueX = proue.getCoordX();
+		int coordProueY = proue.getCoordY();
+		int coordPoupeX = poupe.getCoordX();
+		int coordPoupeY = poupe.getCoordY();
+		
+		List<Case> positionBateau;
+		Case caseTemp;
+		
+		if ((coordProueX == coordPoupeX && Math.abs(coordProueY - coordPoupeY) == 3) ||
+			(coordProueY == coordPoupeY && Math.abs(coordProueX - coordPoupeX) == 3))
 			{
-				CA1 = new Croiseur(caseProue, casePoupe);
+				CA1 = new Croiseur(proue, poupe);
 				positionBateau = CA1.getPosition();
 				for (Case c : positionBateau)
 				{
-					index = c.getCoordX() + c.getCoordY() * 10;
-					caseTemp = grilleJoueur.getGrille().get(index);
+					caseTemp = grilleJoueur.getCase(c.getCoordX(), c.getCoordY());
 					if (caseTemp.isBateau())
 					{
-						nbCAJoueur ++;
-						System.out.println("Entrée incorrecte");
-						break;
+						return false;
 					}
 				}
-				if (nbCAJoueur == 1)
-				{
-					grilleJoueur.setBateau(positionBateau, true);
-				}
+				nbCAJoueur --;
+				grilleJoueur.setBateau(positionBateau, true);
+				return true;
 			}
-			else if (tailleBateau == 4 && nbCAJoueur == 0)
+		else
+		{
+			return false;
+		}
+	}
+	
+	public void destroyCA1()
+	{
+		List<Case> positionBateau = CA1.getPosition();
+		nbCAJoueur ++;
+		grilleJoueur.setBateau(positionBateau, false);
+	}
+	
+	public boolean setCA2(Case proue, Case poupe)
+	{
+		int coordProueX = proue.getCoordX();
+		int coordProueY = proue.getCoordY();
+		int coordPoupeX = poupe.getCoordX();
+		int coordPoupeY = poupe.getCoordY();
+		
+		List<Case> positionBateau;
+		Case caseTemp;
+		
+		if ((coordProueX == coordPoupeX && Math.abs(coordProueY - coordPoupeY) == 3) ||
+			(coordProueY == coordPoupeY && Math.abs(coordProueX - coordPoupeX) == 3))
 			{
-				CA2 = new Croiseur(caseProue, casePoupe);
+				CA2 = new Croiseur(proue, poupe);
 				positionBateau = CA2.getPosition();
 				for (Case c : positionBateau)
 				{
-					index = c.getCoordX() + c.getCoordY() * 10;
-					caseTemp = grilleJoueur.getGrille().get(index);
+					caseTemp = grilleJoueur.getCase(c.getCoordX(), c.getCoordY());
 					if (caseTemp.isBateau())
 					{
-						nbCAJoueur ++;
-						System.out.println("Entrée incorrecte");
-						break;
+						return false;
 					}
 				}
-				if (nbCAJoueur == 0)
-				{
-					grilleJoueur.setBateau(positionBateau, true);
-				}
+				nbCAJoueur --;
+				grilleJoueur.setBateau(positionBateau, true);
+				return true;
 			}
-			else if (tailleBateau == 3 && nbDDJoueur == 1)
+		else
+		{
+			return false;
+		}
+	}
+	
+	public void destroyCA2()
+	{
+		List<Case> positionBateau = CA2.getPosition();
+		nbCAJoueur ++;
+		grilleJoueur.setBateau(positionBateau, false);
+	}
+	
+	public boolean setDD1(Case proue, Case poupe)
+	{
+		int coordProueX = proue.getCoordX();
+		int coordProueY = proue.getCoordY();
+		int coordPoupeX = poupe.getCoordX();
+		int coordPoupeY = poupe.getCoordY();
+		
+		List<Case> positionBateau;
+		Case caseTemp;
+		
+		if ((coordProueX == coordPoupeX && Math.abs(coordProueY - coordPoupeY) == 2) ||
+			(coordProueY == coordPoupeY && Math.abs(coordProueX - coordPoupeX) == 2))
 			{
-				DD1 = new Torpilleur(caseProue, casePoupe);
+				DD1 = new Croiseur(proue, poupe);
 				positionBateau = DD1.getPosition();
 				for (Case c : positionBateau)
 				{
-					index = c.getCoordX() + c.getCoordY() * 10;
-					caseTemp = grilleJoueur.getGrille().get(index);
+					caseTemp = grilleJoueur.getCase(c.getCoordX(), c.getCoordY());
 					if (caseTemp.isBateau())
 					{
-						nbDDJoueur ++;
-						System.out.println("Entrée incorrecte");
-						break;
+						return false;
 					}
 				}
-				if (nbDDJoueur == 1)
-				{
-					grilleJoueur.setBateau(positionBateau, true);
-				}
+				nbDDJoueur --;
+				grilleJoueur.setBateau(positionBateau, true);
+				return true;
 			}
-			else if (tailleBateau == 3 && nbDDJoueur == 0)
+		else
+		{
+			return false;
+		}
+	}
+	
+	public void destroyDD1()
+	{
+		List<Case> positionBateau = DD1.getPosition();
+		nbDDJoueur ++;
+		grilleJoueur.setBateau(positionBateau, false);
+	}
+	
+	public boolean setDD2(Case proue, Case poupe)
+	{
+		int coordProueX = proue.getCoordX();
+		int coordProueY = proue.getCoordY();
+		int coordPoupeX = poupe.getCoordX();
+		int coordPoupeY = poupe.getCoordY();
+		
+		List<Case> positionBateau;
+		Case caseTemp;
+		
+		if ((coordProueX == coordPoupeX && Math.abs(coordProueY - coordPoupeY) == 2) ||
+			(coordProueY == coordPoupeY && Math.abs(coordProueX - coordPoupeX) == 2))
 			{
-				DD2 = new Torpilleur(caseProue, casePoupe);
+				DD2 = new Croiseur(proue, poupe);
 				positionBateau = DD2.getPosition();
 				for (Case c : positionBateau)
 				{
-					index = c.getCoordX() + c.getCoordY() * 10;
-					caseTemp = grilleJoueur.getGrille().get(index);
+					caseTemp = grilleJoueur.getCase(c.getCoordX(), c.getCoordY());
 					if (caseTemp.isBateau())
 					{
-						nbDDJoueur ++;
-						System.out.println("Entrée incorrecte");
-						break;
+						return false;
 					}
 				}
-				if (nbDDJoueur == 0)
-				{
-					grilleJoueur.setBateau(positionBateau, true);
-				}
+				nbDDJoueur --;
+				grilleJoueur.setBateau(positionBateau, true);
+				return true;
 			}
-		}
-		while (nbCVJoueur + nbCAJoueur + nbDDJoueur > 0);
-	}
-	
-	public int tourJoueur()
-	{
-		String tir = null;
-		
-		int coordX = 0;
-		int coordY = 0;
-		Case position;
-		
-		System.out.println("À vous de jouer!");
-		
-		Scanner reader = new Scanner(System.in);  // Reading from System.in
-		
-		do // Selection de la case
-		{
-			System.out.print("Entrez une case ([A..J][1..10]): ");
-			tir = reader.nextLine();
-			if (tir.length() < 2)
-			{
-				System.out.println("Entrée incorrecte");
-			}
-			else
-			{
-				coordX = Character.getNumericValue(tir.charAt(0));
-				coordY = Character.getNumericValue(tir.charAt(1));
-				if (coordX < 20 && coordX >= 10 && Character.isDigit(tir.charAt(1)) && tir.length() == 2)
-				{
-					coordX -= 10;
-					coordY -= 1;
-					position = grilleEnnemi.getGrille().get(coordX + coordY * 10);
-					if (position.isTir())
-					{
-						System.out.println("Entrée incorrecte");
-					}
-					else
-					{
-						grilleEnnemi.setTir(position, true);
-						break;
-					}
-				}
-				else if (coordX < 20 && coordX >= 10 && Character.isDigit(tir.charAt(1)) && coordY == 1 &&
-						Character.isDigit(tir.charAt(2)) && Character.getNumericValue(tir.charAt(2)) == 0 && tir.length() == 3)
-				{
-					coordX -= 10;
-					coordY = 9;
-					position = grilleEnnemi.getGrille().get(coordX + coordY * 10);
-					if (position.isTir())
-					{
-						System.out.println("Entrée incorrecte");
-					}
-					else
-					{
-						grilleEnnemi.setTir(position, true);
-						break;
-					}
-				}
-				else
-				{
-					System.out.println("Entrée incorrecte");
-				}
-			}
-		}
-		while (true);
-		
-		do
-		{
-			System.out.print("Touché ? ");
-			tir = reader.nextLine();
-			if (tir.length() < 1)
-			{
-				System.out.println("Entrée incorrecte");
-			}
-			else
-			{
-				if (tir.equalsIgnoreCase("T"))
-				{
-					List<Case> bateau = new ArrayList<>();
-					bateau.add(position);
-					grilleEnnemi.setBateau(bateau, true);
-					
-					do
-					{
-						System.out.print("Coulé ? ");
-						tir = reader.nextLine();
-						if (tir.length() < 1)
-						{
-							System.out.println("Entrée incorrecte");
-						}
-						else
-						{
-							if (tir.equalsIgnoreCase("C"))
-							{
-								do
-								{
-									System.out.print("Quel bateau ? ");
-									tir = reader.nextLine();
-									if (tir.equalsIgnoreCase("CV") && nbCVEnnemi < 1)
-									{
-										nbCVEnnemi ++;
-										break;
-									}
-									else if (tir.equalsIgnoreCase("CA") && nbCAEnnemi < 2)
-									{
-										nbCAEnnemi ++;
-										break;
-									}
-									else if (tir.equalsIgnoreCase("DD") && nbDDEnnemi < 2)
-									{
-										nbDDEnnemi ++;
-										break;
-									}
-									else
-									{
-										System.out.println("Entrée incorrecte");
-									}
-								}
-								while (true);
-								
-								if (nbCVEnnemi + nbCAEnnemi + nbDDEnnemi == 5) // Victoire
-								{
-									return 1;
-								}
-							}
-							return this.tourJoueur(); // On rejoue
-						}
-					}
-					while (true);
-				}
-				return this.tourEnnemi(); // À l'ennemi de jouer
-			}
-		}
-		while (true);
-	}
-	
-	public int tourEnnemi()
-	{
-		String tir = null;
-		
-		int coordX = 0;
-		int coordY = 0;
-		Case position;
-		
-		System.out.println("C'est à l'ennemi de jouer!");
-		
-		Scanner reader = new Scanner(System.in);  // Reading from System.in
-		
-		do // Selection de la case
-		{
-			System.out.print("Entrez une case ([A..J][1..10]): ");
-			tir = reader.nextLine();
-			if (tir.length() < 2)
-			{
-				System.out.println("Entrée incorrecte");
-			}
-			else
-			{
-				coordX = Character.getNumericValue(tir.charAt(0));
-				coordY = Character.getNumericValue(tir.charAt(1));
-				if (coordX < 20 && coordX >= 10 && Character.isDigit(tir.charAt(1)) && tir.length() == 2)
-				{
-					coordX -= 10;
-					coordY -= 1;
-					position = grilleJoueur.getGrille().get(coordX + coordY * 10);
-					if (position.isTir())
-					{
-						System.out.println("Entrée incorrecte");
-					}
-					else
-					{
-						break;
-					}
-				}
-				else if (coordX < 20 && coordX >= 10 && Character.isDigit(tir.charAt(1)) && coordY == 1 &&
-						Character.isDigit(tir.charAt(2)) && Character.getNumericValue(tir.charAt(2)) == 0 && tir.length() == 3)
-				{
-					coordX -= 10;
-					coordY = 9;
-					position = grilleJoueur.getGrille().get(coordX + coordY * 10);
-					if (position.isTir())
-					{
-						System.out.println("Entrée incorrecte");
-					}
-					else
-					{
-						break;
-					}
-				}
-				else
-				{
-					System.out.println("Entrée incorrecte");
-				}
-			}
-		}
-		while (true);
-		
-		grilleJoueur.setTir(position, true);
-		
-		if (CV1.isTouche(position) || CA1.isTouche(position) || CA2.isTouche(position) || DD1.isTouche(position) || DD2.isTouche(position))
-		{
-			System.out.println("Touché");
-			
-			if (CV1.isCoule() && CV1.isTouche(position))
-			{
-				System.out.println("Porte-Avion coulé");
-				nbCVJoueur ++;
-			}
-			else if ((CA1.isCoule() && CA1.isTouche(position)) || (CA2.isCoule() && CA2.isTouche(position)))
-			{
-				System.out.println("Croiseur coulé");
-				nbCAJoueur ++;
-			}
-			else if ((DD1.isCoule() && DD1.isTouche(position)) || (DD2.isCoule() && DD2.isTouche(position)))
-			{
-				System.out.println("Torpilleur coulé");
-				nbDDJoueur ++;
-			}
-			
-			if (nbCVJoueur + nbCAJoueur + nbDDJoueur == 5)
-			{
-				return 0; // Défaite
-			}
-			else
-			{
-				return this.tourEnnemi(); // L'ennemi rejoue
-			}
-		}
 		else
 		{
-			System.out.println("Coup dans l'eau");
-			return this.tourJoueur(); // Au joueur de jouer
+			return false;
 		}
+	}
+	
+	public void destroyDD2()
+	{
+		List<Case> positionBateau = DD2.getPosition();
+		nbDDJoueur ++;
+		grilleJoueur.setBateau(positionBateau, false);
+	}
+	
+	public void setCoupDansEau(Case position)
+	{
+		grilleEnnemi.setTir(position, true);
+	}
+	
+	public void setTouche(Case position)
+	{
+		List<Case> bateau = new ArrayList<>();
+		bateau.add(position);
+		grilleEnnemi.setBateau(bateau, true);
+		grilleEnnemi.setTir(position, true);
+	}
+	
+	public boolean setCVCoule(Case position)
+	{
+		this.setTouche(position);
+		nbCVEnnemi ++;
+		return isFinish();
+	}
+	
+	public boolean setCACoule(Case position)
+	{
+		this.setTouche(position);
+		nbCAEnnemi ++;
+		return isFinish();
+	}
+	
+	public boolean setDDCoule(Case position)
+	{
+		this.setTouche(position);
+		nbDDEnnemi ++;
+		return isFinish();
+	}
+	
+	public int setTir(Case position)
+	{
+		int issue = 0;
+		grilleJoueur.setTir(position, true);
+		if (CV1.isCoule() && CV1.isTouche(position))
+		{
+			nbCVJoueur ++;
+			issue = 50;
+			if (isFinish())
+			{
+				issue ++;
+			}
+		}
+		else if ((CA1.isCoule() && CA1.isTouche(position)) || (CA2.isCoule() && CA2.isTouche(position)))
+		{
+			nbCAJoueur ++;
+			issue = 40;
+			if (isFinish())
+			{
+				issue ++;
+			}
+		}
+		else if ((DD1.isCoule() && DD1.isTouche(position)) || (DD2.isCoule() && DD2.isTouche(position)))
+		{
+			nbDDJoueur ++;
+			issue = 30;
+			if (isFinish())
+			{
+				issue ++;
+			}
+		}
+		else if (CV1.isTouche(position) || CA1.isTouche(position) || CA2.isTouche(position) || DD1.isTouche(position) || DD2.isTouche(position))
+		{
+			issue ++;
+		}
+		return issue; // 0: coup dans l'eau, 1: touché, 30: torpilleur coulé, 31: torpilleur coulé + fin, 40: croiseur coulé, 41: croiseur coulé + fin, 50: porte-avion coulé, 51: porte-avion coulé + fin
+	}
+	
+	public boolean isFinish()
+	{
+		return (nbCVEnnemi + nbCAEnnemi + nbDDEnnemi == 5) || (nbCVJoueur + nbCAJoueur + nbDDJoueur == 5);
 	}
 }
