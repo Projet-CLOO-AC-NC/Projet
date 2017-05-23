@@ -1,4 +1,4 @@
-package projetcloo;
+package bataillenavale.jeu;
 
 import java.util.*;
 
@@ -47,35 +47,6 @@ public class Grille
 		Case temp = grille.get(index);
 		temp.setTir(tir);
 		grille.set(index, temp);
-	}
-	
-	public void print()
-	{
-		int i = 1;
-		int j = 0;
-		System.out.println("----------------------");
-		System.out.println("   A B C D E F G H I J");
-		System.out.print(" " + i + " ");
-		for (Case c : grille)
-		{
-			c.print();
-			j++;
-			if (j == taille)
-			{
-				System.out.println("");
-				j = 0;
-				i++;
-				if (i < taille)
-				{
-					System.out.print(" " + i + " ");
-				}
-				else if (i == taille)
-				{
-					System.out.print(i + " ");
-				}
-			}
-		}
-		System.out.println("----------------------");
 	}
 	
 	public void printTest()

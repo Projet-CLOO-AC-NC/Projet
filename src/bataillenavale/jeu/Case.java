@@ -1,8 +1,7 @@
-package projetcloo;
+package bataillenavale.jeu;
 
 public class Case
 {
-
 	private int coordX;
 	private int coordY;
 	private boolean bateau;
@@ -44,26 +43,6 @@ public class Case
 	public void setTir(boolean tir)
 	{
 		this.tir = tir;
-	}
-	
-	public void print()
-	{
-		if (bateau && tir)
-		{
-			System.out.print("X ");
-		}
-		else if (bateau && !tir)
-		{
-			System.out.print("+ ");
-		}
-		else if (!bateau && tir)
-		{
-			System.out.print("0 ");
-		}
-		else
-		{
-			System.out.print("O ");
-		}
 	}
 	
 	public void printTest()

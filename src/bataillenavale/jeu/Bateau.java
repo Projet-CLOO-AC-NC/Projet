@@ -1,4 +1,4 @@
-package projetcloo;
+package bataillenavale.jeu;
 
 import java.util.*;
 

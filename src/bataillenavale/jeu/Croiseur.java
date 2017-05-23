@@ -1,4 +1,4 @@
-package projetcloo;
+package bataillenavale.jeu;
 
 public class Croiseur extends Bateau
 {
@@ -12,5 +12,4 @@ public class Croiseur extends Bateau
 	{
 		return 4;
 	}
-
 }
