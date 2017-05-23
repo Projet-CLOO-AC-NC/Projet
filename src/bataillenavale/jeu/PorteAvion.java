@@ -1,4 +1,4 @@
-package projetcloo;
+package bataillenavale.jeu;
 
 public class PorteAvion extends Bateau
 {
