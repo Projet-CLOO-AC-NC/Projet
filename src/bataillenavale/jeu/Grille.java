@@ -5,15 +5,13 @@ import java.util.*;
 public class Grille
 {
 	private List<Case> grille;
-	private int taille;
 	
-	public Grille(int taille)
+	public Grille()
 	{
-		this.taille = taille;
 		this.grille = new ArrayList<>();
-		for (int i = 0; i < taille; i++)
+		for (int i = 0; i < 10; i++)
 		{
-			for (int j = 0; j < taille; j++)
+			for (int j = 0; j < 10; j++)
 			{
 				grille.add(new Case(j, i, false, false));
 			}
@@ -25,40 +23,35 @@ public class Grille
 		return grille;
 	}
 	
-	public int getTaille()
-	{
-		return taille;
-	}
-	
 	public Case getCase(int coordX, int coordY)
 	{
 		return grille.get(coordX + coordY * 10);
 	}
 	
-	public void setBateau(List<Case> position, boolean bateau)
+	public void setCase(Case position)
+	{
+		grille.set(position.getCoordX() + position.getCoordY() * 10, position);
+	}
+	
+	public void setBateau(int coordX, int coordY, boolean bateau)
+	{
+		Case temp = this.getCase(coordX, coordY);
+		temp.setBateau(bateau);
+		this.setCase(temp);
+	}
+	
+	public void setFullBateau(List<Case> position, boolean bateau)
 	{
 		for (Case c : position)
 		{
-			int index = c.getCoordX() + c.getCoordY() * 10;
-			Case temp = grille.get(index);
-			temp.setBateau(bateau);
-			grille.set(index, temp);
+			this.setBateau(c.getCoordX(), c.getCoordY(), bateau);
 		}
 	}
 	
-	public void setTir(Case position, boolean tir)
+	public void setTir(int coordX, int coordY, boolean tir)
 	{
-		int index = position.getCoordX() + position.getCoordY() * 10;
-		Case temp = grille.get(index);
+		Case temp = this.getCase(coordX, coordY);
 		temp.setTir(tir);
-		grille.set(index, temp);
-	}
-	
-	public void printTest()
-	{
-		for (Case c : grille)
-		{
-			c.printTest();
-		}
+		this.setCase(temp);
 	}
 }

@@ -2,9 +2,9 @@ package bataillenavale.jeu;
 
 public class Croiseur extends Bateau
 {
-	public Croiseur(Case proue, Case poupe)
+	public Croiseur(int coordProueX, int coordProueY, int coordPoupeX, int coordPoupeY)
 	{
-		super(proue, poupe);
+		super(coordProueX, coordProueY, coordPoupeX, coordPoupeY);
 	}
 
 	@Override

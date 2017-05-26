@@ -2,9 +2,9 @@ package bataillenavale.jeu;
 
 public class Torpilleur extends Bateau
 {
-	public Torpilleur(Case proue, Case poupe)
+	public Torpilleur(int coordProueX, int coordProueY, int coordPoupeX, int coordPoupeY)
 	{
-		super(proue, poupe);
+		super(coordProueX, coordProueY, coordPoupeX, coordPoupeY);
 	}
 
 	@Override

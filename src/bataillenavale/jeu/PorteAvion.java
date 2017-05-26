@@ -2,9 +2,9 @@ package bataillenavale.jeu;
 
 public class PorteAvion extends Bateau
 {
-	public PorteAvion(Case proue, Case poupe)
+	public PorteAvion(int coordProueX, int coordProueY, int coordPoupeX, int coordPoupeY)
 	{
-		super(proue, poupe);
+		super(coordProueX, coordProueY, coordPoupeX, coordPoupeY);
 	}
 
 	@Override
