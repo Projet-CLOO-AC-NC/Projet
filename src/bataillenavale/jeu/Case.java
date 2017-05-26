@@ -44,9 +44,4 @@ public class Case
 	{
 		this.tir = tir;
 	}
-	
-	public void printTest()
-	{
-		System.out.println("X: " + coordX + " Y: " + coordY + " B: " + bateau + " T: " + tir);
-	}
 }

@@ -6,26 +6,26 @@ public abstract class Bateau
 {
 	private List<Case> position;
 	
-	public Bateau(Case proue, Case poupe)
+	public Bateau(int coordProueX, int coordProueY, int coordPoupeX, int coordPoupeY)
 	{
 		int taille = getTaille();
 		int start = 0;
 		List<Case> position = new ArrayList<>();
 		
-		if (proue.getCoordX() == poupe.getCoordX())
+		if (coordProueX == coordPoupeX)
 		{
-			start = Math.min(proue.getCoordY(), poupe.getCoordY());
+			start = Math.min(coordProueY, coordPoupeY);
 			for (int i = start; i < (taille + start); i++)
 			{
-				position.add(new Case(proue.getCoordX(), i, true, false));
+				position.add(new Case(coordProueX, i, true, false));
 			}
 		}
 		else
 		{
-			start = Math.min(proue.getCoordX(), poupe.getCoordX());
+			start = Math.min(coordProueX, coordPoupeX);
 			for (int i = start; i < (taille + start); i++)
 			{
-				position.add(new Case(i, proue.getCoordY(), true, false));
+				position.add(new Case(i, coordProueY, true, false));
 			}
 		}
 		
@@ -37,10 +37,8 @@ public abstract class Bateau
 		return position;
 	}
 	
-	public boolean isTouche(Case tir)
+	public boolean isTouche(int coordX, int coordY)
 	{
-		int coordX = tir.getCoordX();
-		int coordY = tir.getCoordY();
 		for (Case c: position)
 		{
 			if (c.getCoordX() == coordX && c.getCoordY() == coordY && !c.isTir())

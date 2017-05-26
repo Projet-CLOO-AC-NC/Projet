@@ -23,8 +23,8 @@ public class Joueur
 	
 	public Joueur()
 	{
-		this.grilleJoueur = new Grille(10);
-		this.grilleEnnemi = new Grille(10);
+		this.grilleJoueur = new Grille();
+		this.grilleEnnemi = new Grille();
 		this.nbCVJoueur = 1;
 		this.nbCAJoueur = 2;
 		this.nbDDJoueur = 2;
@@ -73,33 +73,43 @@ public class Joueur
 		return nbDDEnnemi;
 	}
 	
-	public boolean setCV1(Case proue, Case poupe)
+	public boolean isBateau(int coordX, int coordY)
 	{
-		int coordProueX = proue.getCoordX();
-		int coordProueY = proue.getCoordY();
-		int coordPoupeX = poupe.getCoordX();
-		int coordPoupeY = poupe.getCoordY();
+		return grilleJoueur.getCase(coordX, coordY).isBateau();
+	}
+	
+	public boolean isBateau(List<Case> position)
+	{
+		for (Case c : position)
+		{
+			if (grilleJoueur.getCase(c.getCoordX(), c.getCoordY()).isBateau())
+			{
+				return true;
+			}
+		}
 		
+		return false;
+	}
+	
+	public boolean setCV1(int coordProueX, int coordProueY, int coordPoupeX, int coordPoupeY)
+	{	
 		List<Case> positionBateau;
-		Case caseTemp;
 		
 		if ((coordProueX == coordPoupeX && Math.abs(coordProueY - coordPoupeY) == 4) ||
 			(coordProueY == coordPoupeY && Math.abs(coordProueX - coordPoupeX) == 4))
+		{
+			CV1 = new PorteAvion(coordProueX, coordProueY, coordPoupeX, coordPoupeY);
+			positionBateau = CV1.getPosition();
+			
+			if (isBateau(positionBateau))
 			{
-				CV1 = new PorteAvion(proue, poupe);
-				positionBateau = CV1.getPosition();
-				for (Case c : positionBateau)
-				{
-					caseTemp = grilleJoueur.getCase(c.getCoordX(), c.getCoordY());
-					if (caseTemp.isBateau())
-					{
-						return false;
-					}
-				}
-				nbCVJoueur --;
-				grilleJoueur.setBateau(positionBateau, true);
-				return true;
+				return false;
 			}
+			
+			nbCVJoueur --;
+			grilleJoueur.setFullBateau(positionBateau, true);
+			return true;
+		}
 		else
 		{
 			return false;
@@ -110,36 +120,28 @@ public class Joueur
 	{
 		List<Case> positionBateau = CV1.getPosition();
 		nbCVJoueur ++;
-		grilleJoueur.setBateau(positionBateau, false);
+		grilleJoueur.setFullBateau(positionBateau, false);
 	}
 	
-	public boolean setCA1(Case proue, Case poupe)
-	{
-		int coordProueX = proue.getCoordX();
-		int coordProueY = proue.getCoordY();
-		int coordPoupeX = poupe.getCoordX();
-		int coordPoupeY = poupe.getCoordY();
-		
+	public boolean setCA1(int coordProueX, int coordProueY, int coordPoupeX, int coordPoupeY)
+	{	
 		List<Case> positionBateau;
-		Case caseTemp;
 		
 		if ((coordProueX == coordPoupeX && Math.abs(coordProueY - coordPoupeY) == 3) ||
 			(coordProueY == coordPoupeY && Math.abs(coordProueX - coordPoupeX) == 3))
+		{
+			CA1 = new Croiseur(coordProueX, coordProueY, coordPoupeX, coordPoupeY);
+			positionBateau = CA1.getPosition();
+			
+			if (isBateau(positionBateau))
 			{
-				CA1 = new Croiseur(proue, poupe);
-				positionBateau = CA1.getPosition();
-				for (Case c : positionBateau)
-				{
-					caseTemp = grilleJoueur.getCase(c.getCoordX(), c.getCoordY());
-					if (caseTemp.isBateau())
-					{
-						return false;
-					}
-				}
-				nbCAJoueur --;
-				grilleJoueur.setBateau(positionBateau, true);
-				return true;
+				return false;
 			}
+			
+			nbCAJoueur --;
+			grilleJoueur.setFullBateau(positionBateau, true);
+			return true;
+		}
 		else
 		{
 			return false;
@@ -150,36 +152,28 @@ public class Joueur
 	{
 		List<Case> positionBateau = CA1.getPosition();
 		nbCAJoueur ++;
-		grilleJoueur.setBateau(positionBateau, false);
+		grilleJoueur.setFullBateau(positionBateau, false);
 	}
 	
-	public boolean setCA2(Case proue, Case poupe)
-	{
-		int coordProueX = proue.getCoordX();
-		int coordProueY = proue.getCoordY();
-		int coordPoupeX = poupe.getCoordX();
-		int coordPoupeY = poupe.getCoordY();
-		
+	public boolean setCA2(int coordProueX, int coordProueY, int coordPoupeX, int coordPoupeY)
+	{	
 		List<Case> positionBateau;
-		Case caseTemp;
 		
 		if ((coordProueX == coordPoupeX && Math.abs(coordProueY - coordPoupeY) == 3) ||
 			(coordProueY == coordPoupeY && Math.abs(coordProueX - coordPoupeX) == 3))
+		{
+			CA2 = new Croiseur(coordProueX, coordProueY, coordPoupeX, coordPoupeY);
+			positionBateau = CA2.getPosition();
+			
+			if (isBateau(positionBateau))
 			{
-				CA2 = new Croiseur(proue, poupe);
-				positionBateau = CA2.getPosition();
-				for (Case c : positionBateau)
-				{
-					caseTemp = grilleJoueur.getCase(c.getCoordX(), c.getCoordY());
-					if (caseTemp.isBateau())
-					{
-						return false;
-					}
-				}
-				nbCAJoueur --;
-				grilleJoueur.setBateau(positionBateau, true);
-				return true;
+				return false;
 			}
+			
+			nbCAJoueur --;
+			grilleJoueur.setFullBateau(positionBateau, true);
+			return true;
+		}
 		else
 		{
 			return false;
@@ -190,36 +184,28 @@ public class Joueur
 	{
 		List<Case> positionBateau = CA2.getPosition();
 		nbCAJoueur ++;
-		grilleJoueur.setBateau(positionBateau, false);
+		grilleJoueur.setFullBateau(positionBateau, false);
 	}
 	
-	public boolean setDD1(Case proue, Case poupe)
-	{
-		int coordProueX = proue.getCoordX();
-		int coordProueY = proue.getCoordY();
-		int coordPoupeX = poupe.getCoordX();
-		int coordPoupeY = poupe.getCoordY();
-		
+	public boolean setDD1(int coordProueX, int coordProueY, int coordPoupeX, int coordPoupeY)
+	{	
 		List<Case> positionBateau;
-		Case caseTemp;
 		
 		if ((coordProueX == coordPoupeX && Math.abs(coordProueY - coordPoupeY) == 2) ||
 			(coordProueY == coordPoupeY && Math.abs(coordProueX - coordPoupeX) == 2))
+		{
+			DD1 = new Torpilleur(coordProueX, coordProueY, coordPoupeX, coordPoupeY);
+			positionBateau = DD1.getPosition();
+			
+			if (isBateau(positionBateau))
 			{
-				DD1 = new Croiseur(proue, poupe);
-				positionBateau = DD1.getPosition();
-				for (Case c : positionBateau)
-				{
-					caseTemp = grilleJoueur.getCase(c.getCoordX(), c.getCoordY());
-					if (caseTemp.isBateau())
-					{
-						return false;
-					}
-				}
-				nbDDJoueur --;
-				grilleJoueur.setBateau(positionBateau, true);
-				return true;
+				return false;
 			}
+			
+			nbDDJoueur --;
+			grilleJoueur.setFullBateau(positionBateau, true);
+			return true;
+		}
 		else
 		{
 			return false;
@@ -230,36 +216,28 @@ public class Joueur
 	{
 		List<Case> positionBateau = DD1.getPosition();
 		nbDDJoueur ++;
-		grilleJoueur.setBateau(positionBateau, false);
+		grilleJoueur.setFullBateau(positionBateau, false);
 	}
 	
-	public boolean setDD2(Case proue, Case poupe)
-	{
-		int coordProueX = proue.getCoordX();
-		int coordProueY = proue.getCoordY();
-		int coordPoupeX = poupe.getCoordX();
-		int coordPoupeY = poupe.getCoordY();
-		
+	public boolean setDD2(int coordProueX, int coordProueY, int coordPoupeX, int coordPoupeY)
+	{	
 		List<Case> positionBateau;
-		Case caseTemp;
 		
 		if ((coordProueX == coordPoupeX && Math.abs(coordProueY - coordPoupeY) == 2) ||
 			(coordProueY == coordPoupeY && Math.abs(coordProueX - coordPoupeX) == 2))
+		{
+			DD2 = new Torpilleur(coordProueX, coordProueY, coordPoupeX, coordPoupeY);
+			positionBateau = DD2.getPosition();
+			
+			if (isBateau(positionBateau))
 			{
-				DD2 = new Croiseur(proue, poupe);
-				positionBateau = DD2.getPosition();
-				for (Case c : positionBateau)
-				{
-					caseTemp = grilleJoueur.getCase(c.getCoordX(), c.getCoordY());
-					if (caseTemp.isBateau())
-					{
-						return false;
-					}
-				}
-				nbDDJoueur --;
-				grilleJoueur.setBateau(positionBateau, true);
-				return true;
+				return false;
 			}
+			
+			nbDDJoueur --;
+			grilleJoueur.setFullBateau(positionBateau, true);
+			return true;
+		}
 		else
 		{
 			return false;
@@ -270,48 +248,52 @@ public class Joueur
 	{
 		List<Case> positionBateau = DD2.getPosition();
 		nbDDJoueur ++;
-		grilleJoueur.setBateau(positionBateau, false);
+		grilleJoueur.setFullBateau(positionBateau, false);
 	}
 	
-	public void setCoupDansEau(Case position)
+	public boolean isTir(int coordX, int coordY)
 	{
-		grilleEnnemi.setTir(position, true);
+		return grilleEnnemi.getCase(coordX, coordY).isTir();
 	}
 	
-	public void setTouche(Case position)
+	public void setCoupDansEau(int coordX, int coordY)
 	{
-		List<Case> bateau = new ArrayList<>();
-		bateau.add(position);
-		grilleEnnemi.setBateau(bateau, true);
-		grilleEnnemi.setTir(position, true);
+		grilleEnnemi.setTir(coordX, coordY, true);
 	}
 	
-	public boolean setCVCoule(Case position)
+	public void setTouche(int coordX, int coordY)
 	{
-		this.setTouche(position);
+		grilleEnnemi.setBateau(coordX, coordY, true);
+		grilleEnnemi.setTir(coordX, coordY, true);
+	}
+	
+	public boolean setCVCoule(int coordX, int coordY)
+	{
+		this.setTouche(coordX, coordY);
 		nbCVEnnemi ++;
 		return isFinish();
 	}
 	
-	public boolean setCACoule(Case position)
+	public boolean setCACoule(int coordX, int coordY)
 	{
-		this.setTouche(position);
+		this.setTouche(coordX, coordY);
 		nbCAEnnemi ++;
 		return isFinish();
 	}
 	
-	public boolean setDDCoule(Case position)
+	public boolean setDDCoule(int coordX, int coordY)
 	{
-		this.setTouche(position);
+		this.setTouche(coordX, coordY);
 		nbDDEnnemi ++;
 		return isFinish();
 	}
 	
-	public int setTir(Case position)
+	public int setTir(int coordX, int coordY)
 	{
 		int issue = 0;
-		grilleJoueur.setTir(position, true);
-		if (CV1.isCoule() && CV1.isTouche(position))
+		grilleJoueur.setTir(coordX, coordY, true);
+		
+		if (CV1.isCoule() && CV1.isTouche(coordX, coordY))
 		{
 			nbCVJoueur ++;
 			issue = 50;
@@ -320,7 +302,7 @@ public class Joueur
 				issue ++;
 			}
 		}
-		else if ((CA1.isCoule() && CA1.isTouche(position)) || (CA2.isCoule() && CA2.isTouche(position)))
+		else if ((CA1.isCoule() && CA1.isTouche(coordX, coordY)) || (CA2.isCoule() && CA2.isTouche(coordX, coordY)))
 		{
 			nbCAJoueur ++;
 			issue = 40;
@@ -329,7 +311,7 @@ public class Joueur
 				issue ++;
 			}
 		}
-		else if ((DD1.isCoule() && DD1.isTouche(position)) || (DD2.isCoule() && DD2.isTouche(position)))
+		else if ((DD1.isCoule() && DD1.isTouche(coordX, coordY)) || (DD2.isCoule() && DD2.isTouche(coordX, coordY)))
 		{
 			nbDDJoueur ++;
 			issue = 30;
@@ -338,10 +320,11 @@ public class Joueur
 				issue ++;
 			}
 		}
-		else if (CV1.isTouche(position) || CA1.isTouche(position) || CA2.isTouche(position) || DD1.isTouche(position) || DD2.isTouche(position))
+		else if (CV1.isTouche(coordX, coordY) || CA1.isTouche(coordX, coordY) || CA2.isTouche(coordX, coordY) || DD1.isTouche(coordX, coordY) || DD2.isTouche(coordX, coordY))
 		{
 			issue ++;
 		}
+		
 		return issue; // 0: coup dans l'eau, 1: touché, 30: torpilleur coulé, 31: torpilleur coulé + fin, 40: croiseur coulé, 41: croiseur coulé + fin, 50: porte-avion coulé, 51: porte-avion coulé + fin
 	}
 	
