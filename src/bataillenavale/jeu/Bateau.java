@@ -41,7 +41,7 @@ public abstract class Bateau
 	{
 		for (Case c: position)
 		{
-			if (c.getCoordX() == coordX && c.getCoordY() == coordY && !c.isTir())
+			if (c.getCoordX() == coordX && c.getCoordY() == coordY)
 			{
 				c.setTir(true);
 				return true;

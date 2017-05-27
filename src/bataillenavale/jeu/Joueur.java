@@ -293,7 +293,7 @@ public class Joueur
 		int issue = 0;
 		grilleJoueur.setTir(coordX, coordY, true);
 		
-		if (CV1.isCoule() && CV1.isTouche(coordX, coordY))
+		if (CV1.isTouche(coordX, coordY) && CV1.isCoule())
 		{
 			nbCVJoueur ++;
 			issue = 50;
@@ -302,7 +302,7 @@ public class Joueur
 				issue ++;
 			}
 		}
-		else if ((CA1.isCoule() && CA1.isTouche(coordX, coordY)) || (CA2.isCoule() && CA2.isTouche(coordX, coordY)))
+		else if (CA1.isTouche(coordX, coordY) && (CA1.isCoule()) || (CA2.isTouche(coordX, coordY) && CA2.isCoule()))
 		{
 			nbCAJoueur ++;
 			issue = 40;
@@ -311,7 +311,7 @@ public class Joueur
 				issue ++;
 			}
 		}
-		else if ((DD1.isCoule() && DD1.isTouche(coordX, coordY)) || (DD2.isCoule() && DD2.isTouche(coordX, coordY)))
+		else if ((DD1.isTouche(coordX, coordY) && DD1.isCoule()) || (DD2.isTouche(coordX, coordY) && DD2.isCoule()))
 		{
 			nbDDJoueur ++;
 			issue = 30;
